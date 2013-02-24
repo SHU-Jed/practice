@@ -1,0 +1,85 @@
+page46:
+  1... vector
+
+   struct Entry{
+   string name;
+   int    number;
+   };
+
+   vector<Entry> phone_book(1000);
+   void print_entry(int i){
+   cout<<phone_book[i].name<<' '<<phone_book[i].number<<'\n';
+   }
+
+
+   void add_entries(int n){
+   phone_book.resize(phone_book.size() + n);
+   }
+
+
+   vector<Entry>  book(1000);  //1000个元素的向量
+   vector<Entry>  book[1000];   //1000个向量的数组
+
+  3.7.2  范围检查
+  vector不提供对区间范围的检查
+  ----------------------------
+  void f(){
+  	int i =phone_book[1001].number;  //1001超出了区间的范围。
+  }
+
+  template<class T> class Vec: public vector<T>{
+  public:
+  		Vec(): vector<T>() {}
+  		Vec(int s):vector<T>() {}
+
+  		T& operator[] (int i){return at(i) ;} //检测区间范围
+  		const T& operator[] (int i) const{return at(i); }
+  				
+  }
+    //at()操作是vector的下标操作，如果超出该vector的区间范围，at()就会抛出一个out_of_range类型的异常
+
+
+  Vec<Entry> phone_book(1000);
+  
+  void print_book(int i){
+  		cout<<phone_book[i].name<<' '<<phone_book[i].number<<'\n';
+  }  
+
+  超出范围访问将抛出一个异常
+
+  void f(){
+  try{
+  for(int i=0;i<10000;i++)print_entry(i);
+  }
+  catch(out_of_range){
+  cout<<"range error\n";
+  }
+
+
+
+  }
+
+  2...表--list
+
+  插入和删除频繁的情况用list
+  list<Entry>  phone_book;
+  表将不采用vector那样的通过下标来访问元素，而是通过迭代器来操作。
+
+  void print_entry(const string& s){
+  typedef list<Entry>::const_iterator LI;//因为不需要改变容器的元素 要改变则list<Entry>:iterator LI.
+  for(LI i = phone_book.begin() ; i!=phone_book.end() ;++i){
+  		const Entry&e = *i;
+  		if(s==e.name){
+  		cout<<e.name<<' '<<e.number<<'\n';
+  		return;
+  		}
+  }
+  }
+
+/*向一个list加入一个元素*/
+void add_entry(Entry& e,list<Entry>::iterator i){
+	phone_book.push_front(e);//加在开头
+	phone_book.push_back(e); //加在最后
+	phone_book.insert(i,e);  //加在'i'所引用的元素之前
+}
+
