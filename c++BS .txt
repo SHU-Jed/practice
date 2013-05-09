@@ -80,6 +80,6 @@ page46:
 void add_entry(Entry& e,list<Entry>::iterator i){
 	phone_book.push_front(e);//加在开头
 	phone_book.push_back(e); //加在最后
-	phone_book.insert(i,e);  //加在'i'所引用的元素之前
+	phone_book.insert(i,e);  //加在'i'所引用的元素之前544555446
 }
 
